@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
+import { Link } from 'react-router-dom';
 
 function Register() {
   const navigate = useNavigate();
@@ -28,11 +29,12 @@ function Register() {
   };
 
   return (
-    <div>
+    <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username</label>
+          <br></br>
           <input
             type="text"
             id="username"
@@ -41,8 +43,10 @@ function Register() {
             onChange={handleInputChange}
           />
         </div>
+        <br></br>
         <div>
           <label htmlFor="password">Password</label>
+          <br></br>
           <input
             type="password"
             id="password"
@@ -51,8 +55,11 @@ function Register() {
             onChange={handleInputChange}
           />
         </div>
+        <br></br>
         <button type="submit">Register</button>
       </form>
+      <br></br>
+      <Link to={"/Login"}>Already a user</Link>
     </div>
   );
 }

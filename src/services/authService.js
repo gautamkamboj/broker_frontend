@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/v1/user';
+const API_URL = 'https://broker-backend-9ksr.onrender.com/api/v1/user';
 
 const register = async (username, password) => {
   try {

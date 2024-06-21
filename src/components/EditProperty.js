@@ -70,11 +70,11 @@ function EditProperty() {
 
       await propertyService.updateProperty(id, formDataWithImages);
       setInvalid("");
-      navigate('/user-properties');
+      navigate(`/property/${id}`);
       
 
     } catch (error) {
-        setInvalid("Format Not Supported");
+        setInvalid("Format Not Supported/ Please ensure less than 10 images");
       console.error('Error updating property:', error);
     }
     
@@ -83,15 +83,17 @@ function EditProperty() {
   return (
     <div style={{textAlign:"center"}}>
     <h2>Update Property Details</h2>
-    <form style={{display:"flex", justifyContent:"center"}} onSubmit={handleSubmit} className='propdetails'>
+    <form style={{display:"flex", justifyContent:"center"}} className='propdetails'>
       <div >
       <div>
         
         <input
           type="text"
+          required
           id="propertyName"
+          name='propertyName'
           placeholder="propertyName"
-          value={formData.propertyName}
+          value={formData?.propertyName}
           onChange={handleInputChange}
         />
       </div>
@@ -99,8 +101,10 @@ function EditProperty() {
         <input
           type="text"
           id="address"
+          required
           placeholder="address"
-          value={formData.address}
+          name="address"
+          value={formData?.address}
           onChange={handleInputChange}
         />
       </div>
@@ -108,7 +112,9 @@ function EditProperty() {
         <textarea
           id="description"
           placeholder="description"
-          value={formData.description}
+          name="description"
+
+          value={formData?.description}
           onChange={handleInputChange}
         />
       </div>
@@ -117,7 +123,7 @@ function EditProperty() {
         <select
           id="type"
           name="type"
-          value={formData.type}
+          value={formData?.type}
           onChange={handleInputChange}
         >
           <option value="rent">Rent</option>
@@ -128,9 +134,10 @@ function EditProperty() {
         <label htmlFor="price">Price</label>
         <input
           type="number"
+          required
           id="price"
           name="price"
-          value={formData.price}
+          value={formData?.price}
           onChange={handleInputChange}
         />
       </div>
@@ -140,7 +147,7 @@ function EditProperty() {
           type="checkbox"
           id="furnished"
           name="furnished"
-          checked={formData.furnished}
+          checked={formData?.furnished}
           onChange={handleInputChange}
         />
       </div>
@@ -150,13 +157,13 @@ function EditProperty() {
           type="checkbox"
           id="parking"
           name="parking"
-          checked={formData.parking}
+          checked={formData?.parking}
           onChange={handleInputChange}
         />
       </div>
       </div>
       <div>
-<label htmlFor="images">Images</label>
+<label htmlFor="images">Images<br></br>(upload upto 10 images)</label>
 <input
   type="file"
   id="images"
@@ -164,7 +171,8 @@ function EditProperty() {
   multiple
   onChange={handleFileChange}
 />
-{formData.images.map((img, index) => (
+{invalid}
+{formData?.images.map((img, index) => (
   <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
     <h5 style={{ margin: '0 10px 0 0' }}>{img.name}</h5>
     <button 
@@ -183,10 +191,10 @@ function EditProperty() {
     </button>
   </div>
 ))}
-<button type="submit">Update</button>
+
 </div>
       
-    </form>
+    </form><button onClick={handleSubmit} >Update</button>
   </div>
   );
 }

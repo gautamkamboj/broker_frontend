@@ -3,7 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { propertyService } from '../services/propertyService';
 import { authService } from '../services/authService';
 import ReactSimplyCarousel from 'react-simply-carousel';
+import { useNavigate } from 'react-router-dom';
 function PropertyDetailPage() {
+    const navigate = useNavigate();
   const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [message, setMessage] = useState('');
@@ -54,9 +56,8 @@ function PropertyDetailPage() {
   const handleDeleteProperty = async (propertyId) => {
     try {
       await propertyService.deleteProperty(propertyId);
-      setProperties((prevProperties) =>
-        prevProperties.filter((property) => property._id !== propertyId)
-      );
+      console.log("deleted")
+      navigate('/user-properties');
     } catch (error) {
       console.error('Error deleting property:', error);
     }

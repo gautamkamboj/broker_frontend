@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { authService } from './authService';
 
-const API_URL = 'http://localhost:5000/api/v1/property';
+const API_URL = 'https://broker-backend-9ksr.onrender.com/api/v1/property';
 
 const getProperties = async () => {
   try {
@@ -96,7 +96,7 @@ const sendMessage = async (propertyId, content) => {
     const token = localStorage.getItem('token');
     const userId = authService.getUserId();
     await axios.post(
-      `http://localhost:5000/api/v1/message/send`,
+      `https://broker-backend-9ksr.onrender.com/api/v1/message/send`,
       { propertyId, content },
       {
         headers: {
@@ -115,7 +115,7 @@ const getMessage = async () => {
       const userId = authService.getUserId();
 
       const response = await axios.get(
-        `http://localhost:5000/api/v1/message/get`
+        `https://broker-backend-9ksr.onrender.com/api/v1/message/get`
         ,
         {
           headers: {
@@ -130,6 +130,19 @@ const getMessage = async () => {
     }
   };
 
+  const deleteMessage = async (messageId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`https://broker-backend-9ksr.onrender.com/api/v1/message/${messageId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      throw new Error('Error deleting message');
+    }
+  };
+
 
 export const propertyService = {
   getProperties,
@@ -139,5 +152,6 @@ export const propertyService = {
   updateProperty,
   deleteProperty,
   sendMessage,
-  getMessage
+  getMessage,
+  deleteMessage
 };
