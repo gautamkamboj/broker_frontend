@@ -9,12 +9,16 @@ function PropertyList() {
   const [properties, setProperties] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const isAuthenticated = authService.isAuthenticated();
+    const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
+        setLoading(true);
         const data = await propertyService.getProperties();
         setProperties(data.properties);
+
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching properties:', error);
       }
@@ -35,6 +39,10 @@ function PropertyList() {
 
   return (
     <div>
+
+      {loading ? 
+      <h1 style={{textAlign:"center"}}>Loading...</h1>: <>
+      
       <div className="search-bar">
         <input
           type="text"
@@ -70,6 +78,11 @@ function PropertyList() {
           ))}
         </TransitionGroup>
       </div>
+      </>
+     
+      
+      }
+
     </div>
   );
 }

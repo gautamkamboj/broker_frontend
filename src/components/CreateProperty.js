@@ -64,7 +64,9 @@ function CreateProperty() {
 
   return (
     <div>
-    {isLoading ? <h2 style={{textAlign:"center"}}> Loading...</h2>: <div style={{textAlign:"center"}}>
+    {isLoading ? <h2 style={{textAlign:"center"}}> Loading...</h2>: 
+    
+    <div style={{textAlign:"center"}}>
     <h2>Create a Listing</h2>
     <form style={{display:"flex", justifyContent:"center"}} onSubmit={handleSubmit} className='propdetails'>
       <div >

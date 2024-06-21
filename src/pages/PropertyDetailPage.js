@@ -15,19 +15,7 @@ function PropertyDetailPage() {
 
   const [properties, setProperties] = useState([]);
 
-  useEffect(() => {
-    const fetchUserProperties = async () => {
-      try {
-        const userId = authService.getUserId();
-        const data = await propertyService.getUserProperties(userId);
-        setProperties(data.properties);
-      } catch (error) {
-        console.error('Error fetching user properties:', error);
-      }
-    };
-
-    fetchUserProperties();
-  }, []);
+  
   useEffect(() => {
     const fetchProperty = async () => {
       try {
@@ -64,7 +52,7 @@ function PropertyDetailPage() {
   };
 
   if (!property) {
-    return <div>Loading...</div>;
+    return <h1 style={{textAlign:"center"}}>Loading...</h1>;
   }
 
   return (
