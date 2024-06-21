@@ -1,70 +1,181 @@
-# Getting Started with Create React App
+# Property Broker API
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a RESTful API for a property broker application, allowing users to manage property listings, user accounts, and messages.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+1. [Features](#features)
+2. [Technologies Used](#technologies-used)
+3. [Getting Started](#getting-started)
+4. [API Documentation](#api-documentation)
+5. [Environment Variables](#environment-variables)
+6. [Contributing](#contributing)
+7. [License](#license)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- User authentication (register, login)
+- Property management (create, list, search, update, delete)
+- User-specific property listings
+- Messaging system
+- Image upload for properties using Cloudinary
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JSON Web Tokens (JWT) for authentication
+- Multer for file uploads
+- Cloudinary for image storage
+- Cors for cross-origin resource sharing
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables (see [Environment Variables](#environment-variables))
+4. Start the server: `npm start`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## API Documentation
+User Routes:
+Base URL: https://broker-backend-9ksr.onrender.com/api/v1/user
+a. Register User
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Endpoint: POST /register
+Description: Register a new user
+Request Body:
+{
+"username": "string",
+"password": "string"
+}
+Response: User details on successful registration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+b. Login User
 
-### `npm run eject`
+Endpoint: POST /login
+Description: Authenticate a user and generate a token
+Request Body:
+{
+"username": "string",
+"password": "string"
+}
+Response: Authentication token and user details
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Property Routes:
+Base URL: /api/v1/property
+a. Create Property
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Endpoint: POST /create
+Description: Create a new property listing
+Authentication: Required
+Request Body: Multipart form data
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+propertyName: string
+address: string
+description: string
+type: string
+price: number
+furnished: boolean
+parking: boolean
+images: file (up to 10 images)
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Response: Created property details
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+b. List All Properties
 
-### Code Splitting
+Endpoint: GET /list
+Description: Retrieve all property listings
+Authentication: Not required
+Response: Array of all property listings
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+c. Get User's Properties
 
-### Analyzing the Bundle Size
+Endpoint: GET /myListing
+Description: Retrieve properties owned by the authenticated user
+Authentication: Required
+Response: Array of user's property listings
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+d. Search Properties
 
-### Making a Progressive Web App
+Endpoint: GET /search/:id
+Description: Search for properties by ID, name, description, or address
+Authentication: Required
+Parameters:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+id: string (search query)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Response: Array of matching properties
 
-### Deployment
+e. Delete Property
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Endpoint: DELETE /:id
+Description: Delete a specific property
+Authentication: Required
+Parameters:
 
-### `npm run build` fails to minify
+id: string (property ID)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+Response: Success message
+
+f. Update Property
+
+Endpoint: PUT /:id
+Description: Update a specific property
+Authentication: Required
+Parameters:
+
+id: string (property ID)
+
+
+Request Body: Multipart form data (same as Create Property)
+Response: Updated property details
+
+
+Message Routes:
+Base URL: /api/v1/message
+a. Send Message
+
+Endpoint: POST /send
+Description: Send a message
+Authentication: Required
+Request Body: (not specified in the provided code)
+Response: (not specified in the provided code)
+
+b. Get Messages
+
+Endpoint: GET /get
+Description: Retrieve messages for the logged-in user
+Authentication: Required
+Response: (not specified in the provided code)
+
+c. Delete Message
+
+Endpoint: DELETE /:messageId
+Description: Delete a specific message
+Authentication: Required
+Parameters:
+
+messageId: string (message ID)
+
+
+Response: (not specified in the provided code)
+
+## Environment Variables
+
+Create a `config/config.env` file with the following variables:
+
+- PORT: Server port number
+- MONGO_URI: MongoDB connection string
+- JWT_SECRET: Secret key for JWT
+- CLOUDINARY_CLOUD_NAME: Cloudinary cloud name
+- CLOUDINARY_API_KEY: Cloudinary API key
+- CLOUDINARY_API_SECRET: Cloudinary API secret
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
