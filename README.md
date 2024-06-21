@@ -143,15 +143,13 @@ a. Send Message
 Endpoint: POST /send
 Description: Send a message
 Authentication: Required
-Request Body: (not specified in the provided code)
-Response: (not specified in the provided code)
 
 b. Get Messages
 
 Endpoint: GET /get
 Description: Retrieve messages for the logged-in user
 Authentication: Required
-Response: (not specified in the provided code)
+
 
 c. Delete Message
 
@@ -163,7 +161,7 @@ Parameters:
 messageId: string (message ID)
 
 
-Response: (not specified in the provided code)
+
 
 ## Environment Variables
 
